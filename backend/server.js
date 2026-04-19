@@ -79,8 +79,8 @@ app.post('/api/create-checkout-session', async (req, res) => {
   }
 });
 
-// Catch-all route to serve index.html for SPA (must be at the end)
-app.get('(.*)', (req, res) => {
+// Catch-all middleware to serve index.html for SPA (must be at the end)
+app.use((req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/dist', 'index.html'));
 });
 
