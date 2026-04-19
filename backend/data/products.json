@@ -1,0 +1,30 @@
+[
+  {
+    "id": "prod_1",
+    "name": "Smart Watch Ultra X",
+    "description": "The next generation smartwatch with health tracking, LTE, and a sleek titanium finish.",
+    "price": 29900,
+    "image": "https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    "id": "prod_2",
+    "name": "Noise-Cancelling Headphones Pro",
+    "description": "Immerse yourself in high-fidelity audio with industry-leading active noise cancellation.",
+    "price": 34900,
+    "image": "https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    "id": "prod_3",
+    "name": "Mechanical Keyboard K8",
+    "description": "A premium mechanical keyboard with custom switches, RGB lighting, and an aluminum frame.",
+    "price": 14900,
+    "image": "https://images.unsplash.com/photo-1595225476474-87563907a212?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+  },
+  {
+    "id": "prod_4",
+    "name": "4K Ultra HD Monitor",
+    "description": "Experience true color accuracy and stunning detail with this 27-inch 4K monitor.",
+    "price": 49900,
+    "image": "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+  }
+]
