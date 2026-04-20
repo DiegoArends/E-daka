@@ -47,8 +47,10 @@ import { cartItemCount } from './store/cart';
   position: sticky;
   top: 0;
   z-index: 100;
-  padding: 1rem 0;
-  border-bottom: 1px solid var(--border-color);
+  padding: 0.75rem 0;
+  background-color: var(--header-bg) !important;
+  box-shadow: var(--shadow-sm);
+  border-bottom: 2px solid rgba(0,0,0,0.05);
 }
 
 .nav-container {
@@ -59,9 +61,11 @@ import { cartItemCount } from './store/cart';
 
 .logo {
   font-size: 1.5rem;
-  font-weight: 700;
-  color: #fff;
+  font-weight: 900;
+  color: var(--accent-color);
   letter-spacing: -0.5px;
+  display: flex;
+  align-items: center;
 }
 
 .nav-links {
@@ -71,12 +75,14 @@ import { cartItemCount } from './store/cart';
 }
 
 .nav-link {
-  color: var(--text-secondary);
-  font-weight: 500;
+  color: var(--accent-color);
+  font-weight: 700;
+  opacity: 0.8;
 }
 
 .nav-link:hover, .nav-link.router-link-active {
-  color: #fff;
+  opacity: 1;
+  color: #000;
 }
 
 .cart-btn {

@@ -32,6 +32,14 @@ const routes = [
     meta: {
       title: 'Success | Order Completed'
     }
+  },
+  {
+    path: '/cancel',
+    name: 'Cancel',
+    component: () => import('../views/Cancel.vue'),
+    meta: {
+      title: 'Payment Cancelled | E-Daka'
+    }
   }
 ]
 

@@ -4,6 +4,18 @@ const cors = require('cors');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const fs = require('fs');
 const path = require('path');
+const multer = require('multer');
+
+// Configure multer for payment capture storage
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    cb(null, `capture-${Date.now()}${path.extname(file.originalname)}`);
+  }
+});
+const upload = multer({ storage });
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -12,6 +24,7 @@ app.use(cors());
 app.use(express.json());
 // Serve static files from the frontend build directory
 app.use(express.static(path.join(__dirname, '../frontend/dist')));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Load mock products
 const productsPath = path.join(__dirname, 'data', 'products.json');
@@ -35,8 +48,11 @@ app.get('/api/products/:id', (req, res) => {
 // Route: Create Stripe Checkout Session
 app.post('/api/create-checkout-session', async (req, res) => {
   try {
-    const { items } = req.body;
-    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+    const { items, paymentMethod = 'stripe' } = req.body;
+    
+    // Determine the base URL dynamically from the request origin
+    const origin = req.get('origin') || req.get('referer');
+    const frontendUrl = process.env.FRONTEND_URL || (origin ? new URL(origin).origin : 'http://localhost:5173');
     
     // Format items for Stripe
     const lineItems = items.map(item => {
@@ -56,13 +72,23 @@ app.post('/api/create-checkout-session', async (req, res) => {
       };
     });
 
+    if (paymentMethod === 'paypal') {
+      // High-fidelity PayPal simulation
+      return res.json({ url: `${frontendUrl}/success?method=paypal&mock=true` });
+    }
+
+    if (paymentMethod === 'local') {
+      // Local Payment (Megasoft/Instapago) simulation
+      return res.json({ url: `${frontendUrl}/success?method=local&mock=true` });
+    }
+
     try {
       // Attempt to create a standard Stripe checkout session
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         line_items: lineItems,
         mode: 'payment',
-        success_url: `${frontendUrl}/success`,
+        success_url: `${frontendUrl}/success?method=stripe`,
         cancel_url: `${frontendUrl}/cancel`,
       });
 
@@ -70,11 +96,31 @@ app.post('/api/create-checkout-session', async (req, res) => {
     } catch (stripeError) {
       // Fallback if Stripe key is a placeholder
       console.warn("Stripe key is likely invalid. Using mock checkout URL.");
-      res.json({ url: `${frontendUrl}/success?mock=true` });
+      res.json({ url: `${frontendUrl}/success?method=stripe&mock=true` });
     }
 
   } catch (error) {
     console.error('Checkout error:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// Route: Upload payment capture
+app.post('/api/upload-capture', upload.single('capture'), (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: 'No file uploaded' });
+    }
+    
+    // In a real app, you would save req.body.reference and req.file.path to a database
+    console.log(`Payment capture received: ${req.file.path} (Ref: ${req.body.reference})`);
+    
+    res.json({ 
+      message: 'Upload successful', 
+      filePath: `/uploads/${req.file.filename}` 
+    });
+  } catch (error) {
+    console.error('Upload error:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });

@@ -1,16 +1,19 @@
 :root {
-  --bg-color: #0d1117;
-  --surface-color: #161b22;
-  --border-color: #30363d;
-  --text-primary: #c9d1d9;
-  --text-secondary: #8b949e;
-  --accent-color: #58a6ff;
-  --accent-hover: #79c0ff;
-  --success-color: #238636;
-  --success-hover: #2ea043;
-  --danger-color: #f85149;
+  --bg-color: #f8f9fa;
+  --surface-color: #ffffff;
+  --border-color: #e1e4e8;
+  --text-primary: #1a1a1a;
+  --text-secondary: #666666;
+  --accent-color: #002a6b; /* Azul Daka */
+  --accent-hover: #001f5f;
+  --header-bg: #E0C200;    /* Amarillo Daka */
+  --success-color: #28a745;
+  --success-hover: #218838;
+  --danger-color: #dc3545;
   
-  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  --font-family: 'Outfit', 'Inter', sans-serif;
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+  --shadow-lg: 0 10px 30px rgba(0,0,0,0.12);
 }
 
 * {
@@ -39,31 +42,41 @@ a:hover {
 }
 
 .btn {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background-color: var(--surface-color);
   color: var(--text-primary);
   border: 1px solid var(--border-color);
   padding: 0.75rem 1.5rem;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
-  font-size: 0.9rem;
-  transition: all 0.2s ease;
+  font-size: 0.95rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  gap: 0.5rem;
 }
 
 .btn:hover {
   background-color: var(--border-color);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn:active {
+  transform: translateY(0);
 }
 
 .btn-primary {
-  background-color: var(--success-color);
+  background-color: var(--accent-color);
   color: #ffffff;
-  border-color: var(--success-color);
+  border-color: var(--accent-color);
 }
 
 .btn-primary:hover {
-  background-color: var(--success-hover);
-  border-color: var(--success-hover);
+  background-color: var(--accent-hover);
+  border-color: var(--accent-hover);
+  box-shadow: 0 0 20px rgba(47, 129, 247, 0.3);
 }
 
 .btn-accent {
@@ -73,8 +86,7 @@ a:hover {
 }
 
 .btn-accent:hover {
-  background-color: var(--accent-color);
-  color: #ffffff;
+  background-color: rgba(47, 129, 247, 0.1);
 }
 
 .container {
@@ -85,8 +97,15 @@ a:hover {
 
 /* Animations */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .animate-fade-in {
@@ -95,8 +114,8 @@ a:hover {
 
 /* Glassmorphism utility */
 .glass {
-  background: rgba(22, 27, 34, 0.7);
+  background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(48, 54, 61, 0.5);
+  border: 1px solid rgba(0, 0, 0, 0.08);
 }
